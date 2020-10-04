@@ -4,18 +4,8 @@
 import requests, json
 
 
-#User input for city
-def city_name():
-    input("Enter city: ")
-
-
-#User input for zip
-def zip_code():
-    input("Enter zip code: ")
-
-
 # Print the weather description
-def print_weather(result,city_name):
+def print_weather(result, city_name):
     print('The current temperature is'.format(city_name, result['main']['temp']))
     print('The current wind speed is'.format(result['wind']['speed']))
     print('The weather is currently'.format(result['weather'][0]['description']))
@@ -37,15 +27,15 @@ def main():
     while True:
         menuoption = menu()
         if (menuoption == 1):
-            city_name()
+            city_name = input("Enter city: ")
             print(city_name)
-            data = weather()
+            data = weather_city()
             print_weather(data, city_name)
 
         elif (menuoption == 2):
-            zip_code()
+            zip_code = input("Enter zip code: ")
             print(zip_code)
-            data = weather()
+            data = weather_zip()
             print_weather(data, zip_code)
 
         elif (menuoption == 3):
@@ -54,8 +44,13 @@ def main():
 
 
 #Response from Weather Service
-def weather():
-    response = requests.get("https://api.openweathermap.org/data/2.5/weather?" + city_name() + "&APPID=b48b4b3967f074d78ad4ba0dbfb3a36a&units=imperial")
+def weather_zip(zip_code):
+    response = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + zip_code + '&APPID+b48b4b3967f074d78ad4ba0dbfb3a36a')
+    return response.json()
+
+
+def weather_city(city_name):
+    response = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + city_name + '&APPID+b48b4b3967f074d78ad4ba0dbfb3a36a')
     return response.json()
 
 
