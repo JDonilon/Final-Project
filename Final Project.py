@@ -5,17 +5,17 @@ import requests
 
 
 # Print the weather using city input
-def print_weather_C(result, city_name):
-    print("{}'s Temperature: {}".format(city_name, result['main']['temp']))
-    print("Wind speed: {} ".format(result['wind']['speed']))
-    print("Weather: {}".format(result['weather'][0]['main']))
+def print_weather_C(data, city_name):
+    print("{}'s Temperature: {}°F".format(city_name, data['main']['temp']))
+    print("Wind speed: {} mph".format(data['wind']['speed']))
+    print("Weather: {}".format(data['weather'][0]['main']))
 
 
 # Print the weather using zip input
-def print_weather_Z(result, zip_code):
-    print("Temperature for {}: {}".format(zip_code, result['main']['temp']))
-    print("Wind speed: {} ".format(result['wind']['speed']))
-    print("Weather: {}".format(result['weather'][0]['main']))
+def print_weather_Z(data, zip_code):
+    print("Temperature for {}: {}°F".format(zip_code, data['main']['temp']))
+    print("Wind speed: {} mph".format(data['wind']['speed']))
+    print("Weather: {}" .format(data['weather'][0]['main']))
 
 
 # User Menu
@@ -37,14 +37,21 @@ def more():
 
 # Response from Weather Service
 def weather_zip(zip):
-    response = requests.get('https://api.openweathermap.org/data/2.5/weather?' + zip + '&APPID=b48b4b3967f074d78ad4ba0dbfb3a36a&units=imperial')
-    return response.json()
+    try:
+        print("Connecting")
+        response = requests.get('https://api.openweathermap.org/data/2.5/weather?' + zip + '&APPID=b48b4b3967f074d78ad4ba0dbfb3a36a&units=imperial')
+        return response.json()
+    except:
+        print("Connection Error")
 
 
 def weather_city(city):
-    response = requests.get('https://api.openweathermap.org/data/2.5/weather?' + city + '&APPID=b48b4b3967f074d78ad4ba0dbfb3a36a&units=imperial')
-    return response.json()
-
+    try:
+        print("Connecting")
+        response = requests.get('https://api.openweathermap.org/data/2.5/weather?' + city + '&APPID=b48b4b3967f074d78ad4ba0dbfb3a36a&units=imperial')
+        return response.json()
+    except:
+        print("Connection Error")
 
 # Program Main Start
 def main():
@@ -62,7 +69,7 @@ def main():
                 print()
                 moreoption = more()
                 if (moreoption == 1):
-                    print(menu())
+                    continue
                 else:
                     print("Thank you for using the weather finder.")
                     break
@@ -80,7 +87,7 @@ def main():
                 print()
                 moreoption = more()
                 if (moreoption == 1):
-                    print(menu())
+                    continue
                 else:
                     print("Thank you for using the weather finder.")
                     break
@@ -91,8 +98,7 @@ def main():
             print('Thank you for using the weather finder.')
             break
 
-if __name__ == '__main__':
-    main()
+main()
 
 # Resources used
 # https://www.w3resource.com/python-exercises/web-scraping/web-scraping-exercise-21.php
